@@ -11,7 +11,6 @@ enum SortType { DESC, ASC };
 
 int QuickSplit(int* arr, int left, int right,
     int (*comparator)(int arg1, int arg2)) {
-
     int pivot = arr[(left + right) / 2];
     int i = left, j = right;
     while (i <= j) {
@@ -31,7 +30,6 @@ int QuickSplit(int* arr, int left, int right,
 
 void QuickSort(int *arr, int left, int right,
     int (*comparator)(int arg1, int arg2)) {
-
     if (left < right) {
         int p = QuickSplit(arr, left, right, comparator);
         QuickSort(arr, left, p, comparator);
@@ -103,7 +101,7 @@ void SortAndCompare(int* arr1, int* arr2, int size, SortType type) {
 
 int main(int argc, char** argv) {
     std::srand(std::time(nullptr));
-    const int kSize = 10; 
+    const int kSize = 10;
     int* arr = GenerateArray(kSize);
     int* copy_arr = CopyArr(arr, kSize);
 
