@@ -1,3 +1,4 @@
+//  Copyright 2019 Kudalin Roman
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
