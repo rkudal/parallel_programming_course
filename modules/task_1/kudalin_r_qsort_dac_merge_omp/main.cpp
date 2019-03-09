@@ -1,4 +1,5 @@
 //  Copyright 2019 Kudalin Roman
+#define _SCL_SECURE_NO_WARNINGS
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
@@ -100,7 +101,7 @@ void SortAndCompare(int* arr1, int* arr2, int size, SortType type) {
 }
 
 int main(int argc, char** argv) {
-    std::srand(std::time(nullptr));
+    std::srand((unsigned int)std::time(nullptr));
     const int kSize = 10;
     int* arr = GenerateArray(kSize);
     int* copy_arr = CopyArr(arr, kSize);
