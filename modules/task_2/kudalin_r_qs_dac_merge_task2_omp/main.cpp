@@ -9,8 +9,6 @@
 #include <ctime>
 #include <functional>
 
-enum class SortOrder { DESC, ASC };
-
 int QuickSplit(int* arr, int left, int right,
     int (*comparator)(int arg1, int arg2)) {
     int pivot = arr[(left + right) / 2];
@@ -62,15 +60,6 @@ int main(int argc, char** argv) {
     const int kSize = 10000000;
     int* arr = GenerateArray(kSize);
     int* copied_arr = CopyArray(arr, kSize);
-    auto descending = [](int arg1, int arg2) {
-        if (arg1 < arg2) {
-            return 1;
-        }
-        if (arg1 > arg2) {
-            return -1;
-        }
-        return 0;
-    };
     auto ascending = [](int arg1, int arg2) {
         if (arg1 < arg2) {
             return -1;
