@@ -13,7 +13,6 @@ enum class SortOrder { DESC, ASC };
 
 int QuickSplit(int* arr, int left, int right,
     int (*comparator)(int arg1, int arg2)) {
-
     int pivot = arr[(left + right) / 2];
     int i = left, j = right;
     while (i <= j) {
@@ -33,7 +32,6 @@ int QuickSplit(int* arr, int left, int right,
 
 void QuickSort(int *arr, int left, int right,
     int (*comparator)(int arg1, int arg2)) {
-
     if (left < right) {
         int p = QuickSplit(arr, left, right, comparator);
         QuickSort(arr, left, p, comparator);
@@ -61,7 +59,7 @@ void PrintArray(int* arr, int size) {
 
 int main(int argc, char** argv) {
     std::srand((unsigned int)std::time(nullptr));
-    const int kSize = 10000000; 
+    const int kSize = 10000000;
     int* arr = GenerateArray(kSize);
     int* copied_arr = CopyArray(arr, kSize);
     auto descending = [](int arg1, int arg2) {
@@ -85,7 +83,6 @@ int main(int argc, char** argv) {
 
     int num_threads = omp_get_max_threads();
     int work_per_thread = kSize / num_threads;
-    
     double begin = omp_get_wtime();
     #pragma omp parallel
     {
