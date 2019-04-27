@@ -1,5 +1,6 @@
 //  Copyright 2019 Kudalin Roman
 #define _SCL_SECURE_NO_WARNINGS
+#include <omp.h>
 #include <iostream>
 #include <cstdlib>
 #include <algorithm>
@@ -7,7 +8,6 @@
 #include <utility>
 #include <ctime>
 #include <functional>
-#include <omp.h>
 
 enum class SortOrder { DESC, ASC };
 
