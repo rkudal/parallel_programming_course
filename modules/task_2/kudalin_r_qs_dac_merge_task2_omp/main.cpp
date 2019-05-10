@@ -87,18 +87,39 @@ int main(int argc, char** argv) {
         }
     }
 
-    int merge_iterations_num = num_threads / 2;
+    int num_working_threads = num_threads / 2;
     int merging_parts_size = work_per_thread;
-    while (merge_iterations_num > 0) {
-        #pragma omp parallel for schedule(static) num_threads(merge_iterations_num)
-        for (int i = 0; i < merge_iterations_num; ++i) {
-            int* first = arr + 2 * i * merging_parts_size;
-            int* middle = first + merging_parts_size;
-            int* last = middle + merging_parts_size;
-            std::inplace_merge(first, middle, last);
+    int tail = num_threads * work_per_thread - num_working_threads * 2 * merging_parts_size;
+    while (num_working_threads > 0) {
+        #pragma omp parallel
+        {
+            #pragma omp single nowait
+            {
+                if (num_working_threads * 2 * merging_parts_size + tail < num_threads * work_per_thread) {
+                    int distance = num_threads * work_per_thread - num_working_threads * 2 * merging_parts_size - tail;
+                    int* first = arr + num_working_threads * 2 * merging_parts_size;
+                    int* middle = first + distance;
+                    int* last = arr + num_threads * work_per_thread;
+                    if (middle != last) {
+                        std::inplace_merge(first, middle, last);
+                    }
+                    tail += distance;
+                }
+            }
+            #pragma omp for schedule(static)
+            for (int i = 0; i < num_working_threads; ++i) {
+                int* first = arr + 2 * i * merging_parts_size;
+                int* middle = first + merging_parts_size;
+                int* last = middle + merging_parts_size;
+                std::inplace_merge(first, middle, last);
+            }
         }
         merging_parts_size *= 2;
-        merge_iterations_num /= 2;
+        num_working_threads /= 2;
+    }
+
+    if (tail > 0) {
+        std::inplace_merge(arr, arr + (num_threads * work_per_thread - tail), arr + num_threads * work_per_thread);
     }
 
     if (kSize % num_threads) {
